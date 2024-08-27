@@ -5,7 +5,6 @@ provider "aws" {
 
 resource "aws_s3_bucket" "athena_bucket" {
   bucket = "terra-athena-bucket" 
-  acl    = "private"  
 }
 
 resource "aws_s3_object" "data_folder" {
@@ -23,7 +22,7 @@ resource "aws_glue_catalog_table" "athena_table" {
     input_format  = "org.apache.hadoop.mapred.TextInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
 
-    serde_info {
+    ser_de_info {
       serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
       parameters = {
         "field.delim" = ","
