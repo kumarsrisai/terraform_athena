@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "athena_bucket" {
 }
 resource "aws_s3_bucket_acl" "bucket_acl" {
     bucket = aws_s3_bucket.athena_bucket.bucket
-    acl = "private"
+    
   
 }
 resource "aws_s3_object" "data_folder" {
@@ -16,10 +16,13 @@ resource "aws_s3_object" "data_folder" {
   key    = "athena/" 
 }
 
+resource "aws_glue_catalog_database" "athena_database" {
+  name = "terra_athena_database"
+}
 
 resource "aws_glue_catalog_table" "athena_table" {
   name          = "terra_athena_table"
-  database_name = "terra_athena_database"
+  database_name = aws_glue_catalog_database.athena_database.name
 
   storage_descriptor {
     location      = "s3://${aws_s3_bucket.athena_bucket.bucket}/${aws_s3_object.data_folder.key}"
