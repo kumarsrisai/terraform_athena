@@ -6,7 +6,11 @@ provider "aws" {
 resource "aws_s3_bucket" "athena_bucket" {
   bucket = "terra-athena-bucket" 
 }
-
+resource "aws_s3_bucket_acl" "bucket_acl" {
+    bucket = aws_s3_bucket.athena_bucket.bucket
+    acl = "private"
+  
+}
 resource "aws_s3_object" "data_folder" {
   bucket = aws_s3_bucket.athena_bucket.bucket
   key    = "athena/" 
