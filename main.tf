@@ -6,7 +6,6 @@ resource "aws_s3_bucket" "athena_bucket" {
   bucket = var.s3_bucket_name
 }
 
-# Corrected S3 object resource with non-deprecated resource
 resource "aws_s3_object" "query_results" {
   bucket = aws_s3_bucket.athena_bucket.bucket
   key    = "query-results/"
