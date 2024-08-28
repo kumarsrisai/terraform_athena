@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "athena_bucket" {
-  bucket = var.s3_bucket_name
+  bucket = "terra-athena-bucket"
 }
 
 resource "aws_s3_object" "data_folder" {
