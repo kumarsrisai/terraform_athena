@@ -4,7 +4,7 @@ variable "region" {
 
 variable "s3_bucket_name" {
   type = string
-  default = "terra_athena_bucket"
+  default = "terra_athena_buckettt"
 }
 
 variable "s3_data_prefix" {
