@@ -2,10 +2,8 @@ variable "region" {
   default = "us-east-1"
 }
 
-variable "s3_bucket_name" {
-  type = string
-  default = "terra_athena_buckettt"
-}
+
+
 
 variable "s3_data_prefix" {
   type = string
