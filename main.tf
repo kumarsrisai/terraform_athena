@@ -1,24 +1,20 @@
 provider "aws" {
-  region = "us-east-1" 
+  region = var.region
 }
-
 
 resource "aws_s3_bucket" "athena_bucket" {
-  bucket = "terra-athena-bucket" 
-}  
-  
+  bucket = var.s3_bucket_name
+}
+
 resource "aws_s3_object" "data_folder" {
   bucket = aws_s3_bucket.athena_bucket.bucket
-  key    = "athena/" 
+  key    = var.s3_data_prefix
 }
 
-resource "aws_glue_catalog_database" "athena_database" {
-  name = "terra_athena_database"
-}
 
 resource "aws_glue_catalog_table" "athena_table" {
-  name          = "terra_athena_table"
-  database_name = aws_glue_catalog_database.athena_database.name
+  name          = var.glue_catalog_table
+  database_name = var.glue_catalog_db
 
   storage_descriptor {
     location      = "s3://${aws_s3_bucket.athena_bucket.bucket}/${aws_s3_object.data_folder.key}"
