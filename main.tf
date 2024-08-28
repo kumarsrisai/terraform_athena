@@ -6,9 +6,10 @@ resource "aws_s3_bucket" "athena_bucket" {
   bucket = var.s3_bucket_name
 }
 
-resource "aws_s3_bucket_object" "name" {
+# Corrected S3 object resource with non-deprecated resource
+resource "aws_s3_object" "query_results" {
   bucket = aws_s3_bucket.athena_bucket.bucket
-  key = "query-results"
+  key    = "query-results/"
 }
 
 resource "aws_s3_object" "data_folder" {
@@ -38,28 +39,3 @@ resource "aws_glue_catalog_table" "athena_table" {
 
     columns {
       name = "id"
-      type = "int"
-    }
-
-    columns {
-      name = "name"
-      type = "string"
-    }
-
-    columns {
-      name = "email"
-      type = "string"
-    }
-
-    columns {
-      name = "created_at"
-      type = "timestamp"
-    }
-
-    columns {
-      name = "status"
-      type = "boolean"
-    }
-  }
-}
-
