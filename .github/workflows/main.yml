@@ -33,5 +33,5 @@ jobs:
       - name: Terraform Init
         run: terraform init
       - name: Terraform apply
-        run: terraform apply
+        run: terraform apply -auto-approve
  
