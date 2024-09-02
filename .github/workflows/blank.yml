@@ -3,7 +3,7 @@ name: Configure AWS Credentials and Deploy
 on:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   id-token: write  # Allow the workflow to request OIDC tokens
