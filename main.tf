@@ -1,3 +1,13 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+
 provider "aws" {
   region = var.aws_region
 }
@@ -6,7 +16,6 @@ resource "aws_s3_bucket" "athena_bucket" {
   bucket = var.s3_bucket_name
 }
 
-# Corrected S3 object resource with non-deprecated resource
 resource "aws_s3_object" "query_results" {
   bucket = aws_s3_bucket.athena_bucket.bucket
   key    = "query-results/"
@@ -60,6 +69,36 @@ resource "aws_glue_catalog_table" "athena_table" {
     columns {
       name = "status"
       type = "boolean"
+    }
+  }
+}
+
+
+
+resource "aws_glue_crawler" "athena_crawler" {
+  name          = "athena-crawler"
+  role          = aws_iam_role.glue_role.arn
+  database_name = aws_glue_catalog_database.athena_database.name
+  table_prefix  = var.athena_table_name
+
+  s3_target {
+    path = "s3://${aws_s3_bucket.athena_bucket.bucket}/${aws_s3_object.data_folder.key}"
+  }
+
+  configuration = jsonencode({
+    "Version" = 1.0,
+    "CrawlerOutput" = {
+      "Partitions" = { "AddOrUpdateBehavior" = "InheritFromTable" }
+    }
+  })
+}
+
+resource "aws_athena_workgroup" "athena_workgroup" {
+  name = var.athena_workgroup_name
+
+  configuration {
+    result_configuration {
+      output_location = "s3://${aws_s3_bucket.athena_bucket.bucket}/${aws_s3_object.query_results.key}"
     }
   }
 }
