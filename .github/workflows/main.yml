@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - dev
+      - master
  
 permissions:
   id-token: write  # Allow the workflow to request OIDC tokens
@@ -21,7 +21,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4  # Latest version as of now
         with:
-          role-to-assume: arn:aws:iam::058264181190:role/masterdev
+          role-to-assume: arn:aws:iam::014498661566:role/saikumar
           role-session-name: github-actions-session
           aws-region: us-east-1
  
