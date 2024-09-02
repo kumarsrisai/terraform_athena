@@ -27,3 +27,16 @@ variable "athena_query" {
   type        = string
   default     = "SELECT * FROM terra_athena_table LIMIT 10;"
 }
+
+variable "crawler" {
+  default = "athena_crawler" 
+}
+
+variable "glue_role_name"{
+  default = "glue_role"
+}
+
+variable "athena_workgroup_name" {
+  type    = string
+  default = "terra_athena_workgroup"
+}
